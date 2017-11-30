@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">Lauf!</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_maps">Map</string>
+
+    <string name="speichernDialogTitel">Track speichern als:</string>
+    <string name="keinGPS">Bitte schalten Sie ihr GPS ein!</string>
+
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>

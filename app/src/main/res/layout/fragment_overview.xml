@@ -1,0 +1,155 @@
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:map="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="de.simon.brandhuber.lauf.MapFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+
+    <fragment
+        android:id="@+id/map2"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="378dp"
+        android:layout_height="275dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="205dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="205dp"
+        android:layout_marginTop="228dp"
+        map:layout_constraintBottom_toBottomOf="parent"
+        map:layout_constraintHorizontal_bias="0.975"
+        map:layout_constraintLeft_toLeftOf="parent"
+        map:layout_constraintRight_toRightOf="parent"
+        map:layout_constraintTop_toTopOf="parent"
+        map:layout_constraintVertical_bias="0.0"
+        tools:context="de.simon.brandhuber.lauf.MapsActivity"
+        tools:layout_constraintLeft_creator="1"
+        tools:layout_constraintTop_creator="1" />
+
+    <Button
+        android:id="@+id/btnStart"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Start"
+        map:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="8dp"
+        map:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="8dp"
+        android:layout_marginLeft="8dp"
+        map:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginRight="8dp"
+        map:layout_constraintRight_toRightOf="parent"
+        map:layout_constraintHorizontal_bias="0.028"
+        map:layout_constraintVertical_bias="0.017" />
+
+    <Button
+        android:id="@+id/btnWeiter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Weiter"
+        android:layout_marginTop="8dp"
+        map:layout_constraintTop_toBottomOf="@+id/btnStart"
+        map:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="8dp"
+        android:layout_marginRight="8dp"
+        map:layout_constraintRight_toRightOf="parent"
+        android:layout_marginLeft="8dp"
+        map:layout_constraintLeft_toLeftOf="parent"
+        map:layout_constraintHorizontal_bias="0.028"
+        map:layout_constraintVertical_bias="0.007" />
+
+    <Button
+        android:id="@+id/btnPause"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Pause"
+        map:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="8dp"
+        map:layout_constraintLeft_toRightOf="@+id/btnStart"
+        android:layout_marginLeft="8dp"
+        map:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="8dp"
+        android:layout_marginRight="8dp"
+        map:layout_constraintRight_toRightOf="parent"
+        map:layout_constraintHorizontal_bias="0.0"
+        map:layout_constraintVertical_bias="0.017" />
+
+    <Button
+        android:id="@+id/btnStopp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Stopp"
+        android:layout_marginTop="8dp"
+        map:layout_constraintTop_toBottomOf="@+id/btnPause"
+        map:layout_constraintLeft_toRightOf="@+id/btnWeiter"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        map:layout_constraintRight_toRightOf="parent"
+        map:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="8dp"
+        map:layout_constraintHorizontal_bias="0.0"
+        map:layout_constraintVertical_bias="0.005" />
+
+    <Button
+        android:id="@+id/btnSave"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Track speichern"
+        map:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="8dp"
+        android:layout_marginLeft="8dp"
+        map:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginRight="8dp"
+        map:layout_constraintRight_toRightOf="parent"
+        map:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="8dp"
+        map:layout_constraintHorizontal_bias="0.149"
+        map:layout_constraintVertical_bias="0.315" />
+
+    <TextView
+        android:id="@+id/viewhight"
+        android:layout_width="106dp"
+        android:layout_height="50dp"
+        map:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="8dp"
+        map:layout_constraintTop_toBottomOf="@+id/viewlong"
+        map:layout_constraintVertical_bias="0.052"
+        map:layout_constraintLeft_toRightOf="@+id/btnSave"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        map:layout_constraintRight_toRightOf="parent"
+        map:layout_constraintHorizontal_bias="0.581" />
+
+    <TextView
+        android:id="@+id/viewlong"
+        android:layout_width="106dp"
+        android:layout_height="50dp"
+        map:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="8dp"
+        map:layout_constraintTop_toBottomOf="@+id/viewlat"
+        map:layout_constraintVertical_bias="0.0"
+        map:layout_constraintLeft_toRightOf="@+id/btnStopp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        map:layout_constraintRight_toRightOf="parent" />
+
+    <TextView
+        android:id="@+id/viewlat"
+        android:layout_width="106dp"
+        android:layout_height="50dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="8dp"
+        map:layout_constraintBottom_toBottomOf="parent"
+        map:layout_constraintTop_toTopOf="parent"
+        map:layout_constraintVertical_bias="0.017"
+        map:layout_constraintLeft_toRightOf="@+id/btnPause"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        map:layout_constraintRight_toRightOf="parent" />
+
+
+</android.support.constraint.ConstraintLayout>
