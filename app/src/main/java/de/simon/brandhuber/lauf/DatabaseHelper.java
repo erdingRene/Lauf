@@ -5,7 +5,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 /**
- * Created by Rie on 01.12.2017.
+ * Created by René on 01.12.2017.
  */
 
 public class DatabaseHelper extends SQLiteOpenHelper{
@@ -29,13 +29,14 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-    db.execSQL("CREATE TABLE " + Table_Name + "( " + Col_1 + " INTEGER PRIMARY KEY AUTOINCREMENT, "+
+    String SQL_String = "CREATE TABLE " + Table_Name + "( " + Col_1 + " INTEGER PRIMARY KEY AUTOINCREMENT, "+
                                                     Col_2 + " INTEGER,"+
                                                     Col_3 + " TEXT," +
                                                     Col_4 + " DOUBLE," +
                                                     Col_5 + " DOUBLE," +
                                                     Col_6 + " DOUBLE," +
-                                                    Col_7 + " LONG)" );
+                                                    Col_7 + " LONG" + ")";
+    db.execSQL(SQL_String);
     }
 
     @Override
