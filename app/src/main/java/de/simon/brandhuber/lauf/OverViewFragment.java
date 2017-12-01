@@ -49,7 +49,7 @@ import java.util.List;
 public class OverViewFragment extends Fragment implements LocationListener,OnMapReadyCallback, View.OnClickListener {
 
     // Vorübergehende Variablen
-    private Integer howOftenWasTheStartButtonPuched = 0;
+    private Integer theNextRunNumber;
     private String runName = "Erding Nord";
     private Double lat;
     private Double lon;
@@ -173,7 +173,12 @@ public class OverViewFragment extends Fragment implements LocationListener,OnMap
             stopButton.setEnabled(true);
             saveButton.setEnabled(false);
             weiterButton.setEnabled(false);
-            howOftenWasTheStartButtonPuched += howOftenWasTheStartButtonPuched;
+
+
+            int howOftenWasTheStartButtonPuched = rundb.lastRunNumber();
+            theNextRunNumber = 1 + howOftenWasTheStartButtonPuched;
+
+
 
             gather = true;
 
@@ -386,7 +391,7 @@ public class OverViewFragment extends Fragment implements LocationListener,OnMap
         hight = loc.getAltitude();
         normalTimeFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
         datetime = normalTimeFormat.format(new Date(loc.getTime()));
-        AddData();
+
 
 
 
@@ -400,6 +405,7 @@ public class OverViewFragment extends Fragment implements LocationListener,OnMap
 
         if (gather) {
             position.add(loc);
+            AddData();
         }
 
     }
@@ -442,7 +448,7 @@ public class OverViewFragment extends Fragment implements LocationListener,OnMap
     }
     //Methode zum Hinzufügen der Eingaben zur DB per Schaltfläche
     public void AddData() {
-        boolean isInserted = rundb.insertData(howOftenWasTheStartButtonPuched, runName,lat,lon,hight,datetime);
+        boolean isInserted = rundb.insertData(theNextRunNumber, runName,lat,lon,hight,datetime);
                         if(isInserted = true)
                             Toast.makeText(getActivity() ,"Data Inserted",Toast.LENGTH_LONG).show();
                         else

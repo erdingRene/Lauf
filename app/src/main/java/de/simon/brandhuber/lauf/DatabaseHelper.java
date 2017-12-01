@@ -2,6 +2,7 @@ package de.simon.brandhuber.lauf;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
@@ -65,5 +66,16 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         else
             return true;
 
+        }
+
+    public int lastRunNumber(){
+
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor res = db.rawQuery("SELECT max(RUN_NUMBER) as Number FROM tbl_run",null);
+        res.moveToFirst();
+        int maxRunNumber = res.getInt(res.getColumnIndex("Number"));
+        return maxRunNumber;
     }
+
 }
