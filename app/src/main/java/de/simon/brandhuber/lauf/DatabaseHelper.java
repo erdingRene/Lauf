@@ -37,7 +37,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
                         Col_4 + " DOUBLE," +
                         Col_5 + " DOUBLE," +
                         Col_6 + " DOUBLE," +
-                        Col_7 + " LONG" + ")";
+                        Col_7 + " STRING" + ")";
     db.execSQL(SQL_String);
     }
 
@@ -47,13 +47,17 @@ public class DatabaseHelper extends SQLiteOpenHelper{
     onCreate(db);
     }
 
-    public boolean insertData(Integer runNumber, String runName){
+    public boolean insertData(Integer runNumber, String runName, Double lat, Double lon, Double hight, String datetime){
         //Schreibt DB
         SQLiteDatabase db = this.getWritableDatabase();
         //Inhalt der in die DB geschrieben wird
         ContentValues contenValue = new ContentValues();
         contenValue.put(Col_2,runNumber);
         contenValue.put(Col_3,runName);
+        contenValue.put(Col_4,lat);
+        contenValue.put(Col_5,lon);
+        contenValue.put(Col_6,hight);
+        contenValue.put(Col_7,datetime);
         //Inhalt in die DB schreiben
         long  result = db.insert(Table_Name,null,contenValue);
         if (result == -1)
