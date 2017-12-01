@@ -21,6 +21,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    DatabaseHelper rundb;
     public static List<Location> weg = new ArrayList<Location>();
 
     public static final String LOG_TAG = MainActivity.class.getSimpleName();
@@ -30,7 +31,7 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
 
         //DB
-
+        rundb = new DatabaseHelper(this);
         //DB
 
 
