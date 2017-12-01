@@ -24,9 +24,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    DatabaseHelper rundb;
-    EditText editRunNumber, editRunName;
-    Button btnOK;
+
 
     public static List<Location> weg = new ArrayList<Location>();
 
@@ -36,12 +34,7 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //DB
-        rundb = new DatabaseHelper(this);
-        editRunName = (EditText) findViewById(R.id.runNumber);
-        editRunName = (EditText) findViewById(R.id.runName);
-        btnOK = (Button) findViewById(R.id.btnOK);
-        AddData();
+
 
          Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -67,23 +60,7 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
     }
 
-    //Methode zum Hinzufügen der Eingaben zur DB per Schaltfläche
-    public void AddData() {
-        btnOK.setOnClickListener(
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        boolean isInserted = rundb.insertData(Integer.parseInt(editRunName.getText().toString()),
-                                editRunName.getText().toString());
-                        if(isInserted = true)
-                            Toast.makeText(MainActivity.this,"Data Inserted",Toast.LENGTH_LONG).show();
-                        else
-                            Toast.makeText(MainActivity.this,"Data not Inserted",Toast.LENGTH_LONG).show();
-                    }
 
-                }
-        );
-    }
 
     @Override
     public void onBackPressed() {
