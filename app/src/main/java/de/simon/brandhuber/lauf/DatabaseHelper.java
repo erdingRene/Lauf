@@ -69,8 +69,6 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         }
 
     public int lastRunNumber(){
-
-
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor res = db.rawQuery("SELECT max(RUN_NUMBER) as Number FROM tbl_run",null);
         res.moveToFirst();
