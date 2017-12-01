@@ -32,6 +32,8 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import org.w3c.dom.Text;
+
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -50,7 +52,7 @@ public class OverViewFragment extends Fragment implements LocationListener,OnMap
 
     // Vorübergehende Variablen
     private Integer theNextRunNumber;
-    private String runName = "Erding Nord";
+    private EditText runName;
     private Double lat;
     private Double lon;
     private Double hight;
@@ -82,8 +84,7 @@ public class OverViewFragment extends Fragment implements LocationListener,OnMap
     public static final String LOG_TAG = MainActivity.class.getSimpleName();
 
     DatabaseHelper rundb;
-    EditText editRunNumber, editRunName;
-    Button btnOK;
+
 
 
 
@@ -122,6 +123,7 @@ public class OverViewFragment extends Fragment implements LocationListener,OnMap
 
         //DB
         rundb = new DatabaseHelper(getContext());
+        runName = (EditText) v.findViewById(R.id.edtRunName);
 
 
         // Start-Schaltfläche
@@ -448,7 +450,7 @@ public class OverViewFragment extends Fragment implements LocationListener,OnMap
     }
     //Methode zum Hinzufügen der Eingaben zur DB per Schaltfläche
     public void AddData() {
-        boolean isInserted = rundb.insertData(theNextRunNumber, runName,lat,lon,hight,datetime);
+        boolean isInserted = rundb.insertData(theNextRunNumber, runName.getText().toString(),lat,lon,hight,datetime);
                         if(isInserted = true)
                             Toast.makeText(getActivity() ,"Data Inserted",Toast.LENGTH_LONG).show();
                         else
