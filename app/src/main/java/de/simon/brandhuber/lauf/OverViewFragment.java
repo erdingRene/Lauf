@@ -67,6 +67,7 @@ public class OverViewFragment extends Fragment implements LocationListener,OnMap
     private TextView testtext;
 
 
+
     public static final String LOG_TAG = MainActivity.class.getSimpleName();
 
 
