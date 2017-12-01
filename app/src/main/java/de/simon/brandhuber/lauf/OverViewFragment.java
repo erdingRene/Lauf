@@ -23,6 +23,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -47,6 +48,16 @@ import java.util.List;
 
 public class OverViewFragment extends Fragment implements LocationListener,OnMapReadyCallback, View.OnClickListener {
 
+    // Vorübergehende Variablen
+    private Integer howOftenWasTheStartButtonPuched = 0;
+    private String runName = "Erding Nord";
+    private Double lat;
+    private Double lon;
+    private Double hight;
+    private String datetime;
+    private SimpleDateFormat normalTimeFormat;
+
+    // reguläre Variablen
     private TextView showlenght;
     private TextView showwidth;
     private TextView showhight;
@@ -70,6 +81,9 @@ public class OverViewFragment extends Fragment implements LocationListener,OnMap
 
     public static final String LOG_TAG = MainActivity.class.getSimpleName();
 
+    DatabaseHelper rundb;
+    EditText editRunNumber, editRunName;
+    Button btnOK;
 
 
 
@@ -90,6 +104,8 @@ public class OverViewFragment extends Fragment implements LocationListener,OnMap
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
 
+
+
         View v = inflater.inflate(R.layout.fragment_overview, container, false);
 
 
@@ -104,6 +120,8 @@ public class OverViewFragment extends Fragment implements LocationListener,OnMap
         }
 
 
+        //DB
+        rundb = new DatabaseHelper(getContext());
 
 
         // Start-Schaltfläche
@@ -155,7 +173,7 @@ public class OverViewFragment extends Fragment implements LocationListener,OnMap
             stopButton.setEnabled(true);
             saveButton.setEnabled(false);
             weiterButton.setEnabled(false);
-
+            howOftenWasTheStartButtonPuched += howOftenWasTheStartButtonPuched;
 
             gather = true;
 
@@ -363,6 +381,14 @@ public class OverViewFragment extends Fragment implements LocationListener,OnMap
 
         double laenge = loc.getLongitude();
         double breite = loc.getLatitude();
+        lat = loc.getLatitude();
+        lon = loc.getLongitude();
+        hight = loc.getAltitude();
+        normalTimeFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
+        datetime = normalTimeFormat.format(new Date(loc.getTime()));
+        AddData();
+
+
 
         showwidth.setText(Location.convert(breite, Location.FORMAT_SECONDS));
         showlenght.setText(Location.convert(laenge, Location.FORMAT_SECONDS));
@@ -412,6 +438,16 @@ public class OverViewFragment extends Fragment implements LocationListener,OnMap
         options.position(pp).title("Hallo Rene");
         map2.addMarker(options);
         map2.moveCamera(CameraUpdateFactory.newLatLng(pp));
+
+    }
+    //Methode zum Hinzufügen der Eingaben zur DB per Schaltfläche
+    public void AddData() {
+        boolean isInserted = rundb.insertData(howOftenWasTheStartButtonPuched, runName,lat,lon,hight,datetime);
+                        if(isInserted = true)
+                            Toast.makeText(getActivity() ,"Data Inserted",Toast.LENGTH_LONG).show();
+                        else
+                            Toast.makeText(getActivity(),"Data not Inserted",Toast.LENGTH_LONG).show();
+
 
     }
 }
