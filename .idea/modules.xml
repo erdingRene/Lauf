@@ -2,7 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/Lauf-master.iml" filepath="$PROJECT_DIR$/Lauf-master.iml" />
+      <module fileurl="file://C:\Users\ASchneider\Downloads\LaufNeu\LaufNeu\Lauf-master.iml" filepath="C:\Users\ASchneider\Downloads\LaufNeu\LaufNeu\Lauf-master.iml" />
+      <module fileurl="file://$PROJECT_DIR$/LaufNeu.iml" filepath="$PROJECT_DIR$/LaufNeu.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>
