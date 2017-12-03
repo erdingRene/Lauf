@@ -81,6 +81,11 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         Cursor res = db.rawQuery("SELECT DISTINCT RUN_NUMBER,RUN_NAME FROM " + Table_Name, null);
             return res;
     }
+
+    public Integer deleteData(String RUN_NAME){
+        SQLiteDatabase db = this.getWritableDatabase();
+        return db.delete(Table_Name,"RUN_NAME = ?", new String[]{RUN_NAME});
+    }
     }
 
 

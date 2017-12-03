@@ -8,6 +8,9 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
 
 
 /**
@@ -16,6 +19,8 @@ import android.view.ViewGroup;
 public class AlreadyRunFragment extends Fragment {
 
     DatabaseHelper rundb;
+    Button  btnDelete;
+    EditText txtDeleteName;
 
 
     public AlreadyRunFragment() {
@@ -26,11 +31,34 @@ public class AlreadyRunFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        rundb = new DatabaseHelper(getContext());
-        viewColumns();
 
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_already_run, container, false);
+        View v = inflater.inflate(R.layout.fragment_already_run, container, false);
+
+
+        txtDeleteName = (EditText) v.findViewById(R.id.txtDeleteName);
+
+        btnDelete = (Button) v.findViewById(R.id.btnDelete);
+        rundb = new DatabaseHelper(getContext());
+        viewColumns();
+        deleteData();
+        return v;
+    }
+
+    public void deleteData(){
+        btnDelete.setOnClickListener(
+                new View.OnClickListener(){
+                    @Override
+                    public void onClick(View v){
+                        Integer deletedRows = rundb.deleteData(txtDeleteName.getText().toString() );
+                        if (deletedRows > 0)
+                            Toast.makeText(getActivity() ,deletedRows + " row(s) deleted",Toast.LENGTH_LONG).show();
+                        else
+                            Toast.makeText(getActivity(),"Data not deleted",Toast.LENGTH_LONG).show();
+
+                    }
+                }
+        );
     }
 
     public void viewColumns(){
