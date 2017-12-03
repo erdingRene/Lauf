@@ -76,4 +76,25 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         return maxRunNumber;
     }
 
-}
+    public Cursor getContacts(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor res = db.rawQuery("SELECT RUN_NUMBER,RUN_NAME FROM" + Table_Name, null);
+
+        /*Cursor res = getReadableDatabase().rawQuery("SELECT RUN_NUMBER,RUN_NAME FROM tbl_run", null);
+        String[] runs;
+        if (res != null)
+        {
+            if (res.moveToFirst()) {
+                for(int i = 0; i < res.getCount(); i ++){
+                    for(int k = 0; k < 2; i++) {
+                        runs.add(res.getString(i,k));
+                    }
+                }
+            }
+            res.close();
+        } */
+        return res;
+    }
+    }
+
+
