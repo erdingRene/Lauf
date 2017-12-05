@@ -7,27 +7,6 @@
 
     <!-- TODO: Update blank fragment layout -->
 
-    <fragment
-        android:id="@+id/map2"
-        android:name="com.google.android.gms.maps.SupportMapFragment"
-        android:layout_width="378dp"
-        android:layout_height="275dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginLeft="205dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginStart="205dp"
-        android:layout_marginTop="228dp"
-        map:layout_constraintBottom_toBottomOf="parent"
-        map:layout_constraintHorizontal_bias="0.975"
-        map:layout_constraintLeft_toLeftOf="parent"
-        map:layout_constraintRight_toRightOf="parent"
-        map:layout_constraintTop_toTopOf="parent"
-        map:layout_constraintVertical_bias="0.0"
-        tools:context="de.simon.brandhuber.lauf.MapsActivity"
-        tools:layout_constraintLeft_creator="1"
-        tools:layout_constraintTop_creator="1" />
-
     <Button
         android:id="@+id/btnStart"
         android:layout_width="wrap_content"
@@ -174,12 +153,29 @@
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         android:ems="10"
         android:inputType="text"
         android:text="Lauf1"
-        map:layout_constraintBottom_toTopOf="@+id/map2"
+        map:layout_constraintBottom_toBottomOf="parent"
         map:layout_constraintEnd_toEndOf="parent"
-        map:layout_constraintStart_toEndOf="@+id/btnSave" />
+        map:layout_constraintHorizontal_bias="1.0"
+        map:layout_constraintStart_toEndOf="@+id/btnSave"
+        map:layout_constraintTop_toTopOf="parent"
+        map:layout_constraintVertical_bias="0.312" />
+
+    <fragment
+        android:id="@+id/small_fragment"
+        android:name="de.simon.brandhuber.lauf.MapFragment"
+        android:layout_width="0dp"
+        android:layout_height="251dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="8dp"
+        map:layout_constraintBottom_toBottomOf="parent"
+        map:layout_constraintLeft_toLeftOf="parent"
+        map:layout_constraintTop_toTopOf="parent"
+        map:layout_constraintVertical_bias="1.0" />
 
 
 </android.support.constraint.ConstraintLayout>
