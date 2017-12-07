@@ -12,9 +12,9 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Environment;
-import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.text.Editable;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -25,12 +25,14 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -46,7 +48,7 @@ import java.util.List;
  */
 
 
-public class OverViewFragment extends Fragment implements LocationListener,OnMapReadyCallback, View.OnClickListener {
+public class OverViewFragment extends Fragment implements LocationListener, View.OnClickListener {
 
     // Vorübergehende Variablen
     private Integer theNextRunNumber;
@@ -85,11 +87,6 @@ public class OverViewFragment extends Fragment implements LocationListener,OnMap
 
 
 
-
-
-
-
-    GoogleMap map2;
     private LocationManager myLocalManager;
 
     public OverViewFragment() {
@@ -104,6 +101,12 @@ public class OverViewFragment extends Fragment implements LocationListener,OnMap
         // Inflate the layout for this fragment
 
 
+        MapFragment mapFragment = new MapFragment();
+
+
+        FragmentManager manager = getActivity().getSupportFragmentManager();
+
+        manager.beginTransaction().replace(R.id.small_fragment, mapFragment).commit();
 
         View v = inflater.inflate(R.layout.fragment_overview, container, false);
 
@@ -425,27 +428,11 @@ public class OverViewFragment extends Fragment implements LocationListener,OnMap
         // TODO Auto-generated method stub
     }
 
-    @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
 
-        super.onViewCreated(view, savedInstanceState);
-        SupportMapFragment overViewFragment = (SupportMapFragment)
-                getChildFragmentManager().findFragmentById(R.id.map2);
-        overViewFragment.getMapAsync(this);
 
-    }
 
-    @Override
-    public void onMapReady(GoogleMap googleMap) {
-        map2 = googleMap;
 
-        LatLng pp = new LatLng(11,104);
-        MarkerOptions options = new MarkerOptions();
-        options.position(pp).title("Hallo Rene");
-        map2.addMarker(options);
-        map2.moveCamera(CameraUpdateFactory.newLatLng(pp));
 
-    }
     //Methode zum Hinzufügen der Eingaben zur DB per Schaltfläche
     public void AddData() {
         boolean isInserted = rundb.insertData(theNextRunNumber, runName.getText().toString(),lat,lon, height,datetime);
