@@ -458,9 +458,12 @@ public class OverViewFragment extends Fragment implements LocationListener, View
         if(rundb.howOftenExistsRunNumber(runNumber) >= 2){
             Double[] latLonArray = rundb.dataForDrawLine(runNumber);
             Polyline line= karte.addPolyline(new PolylineOptions()
-                    .add(new LatLng(latLonArray[0],latLonArray[1]),new LatLng(latLonArray[2],latLonArray[3]))
+                    .clickable(true)
+                    .add(   new LatLng(latLonArray[0],latLonArray[1]),
+                            new LatLng(latLonArray[2],latLonArray[3]))
                     .width(5)
                     .color(Color.RED));
+                    karte.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latLonArray[2],latLonArray[3]), 4));
 
 
         }
