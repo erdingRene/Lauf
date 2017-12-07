@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
+import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -32,6 +33,8 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.Polyline;
+import com.google.android.gms.maps.model.PolylineOptions;
 
 
 import java.io.BufferedWriter;
@@ -73,12 +76,11 @@ public class OverViewFragment extends Fragment implements LocationListener, View
     private Button weiterButton;
     private Button pauseButton;
     private Button stopButton;
-    private Button halloButton;
     private Button saveButton;
     private boolean gather;
     private List<Location> position;
-    private TextView testtext;
 
+    private GoogleMap karte;
 
 
     public static final String LOG_TAG = MainActivity.class.getSimpleName();
@@ -102,6 +104,7 @@ public class OverViewFragment extends Fragment implements LocationListener, View
 
 
         MapFragment mapFragment = new MapFragment();
+        karte = mapFragment.mMap;
 
 
         FragmentManager manager = getActivity().getSupportFragmentManager();
@@ -409,6 +412,10 @@ public class OverViewFragment extends Fragment implements LocationListener, View
         if (gather) {
             position.add(loc);
             AddData();
+
+            drawLine();
+
+
         }
 
     }
@@ -443,4 +450,15 @@ public class OverViewFragment extends Fragment implements LocationListener, View
 
 
     }
+
+
+
+    public void drawLine (Double firstlat, Double firstlon, Double lastlat, Double lastlon){
+        Polyline line= karte.addPolyline(new PolylineOptions()
+                .add(new LatLng(firstlat,firstlon),new LatLng(lastlat,lastlon))
+                .width(5)
+                .color(Color.RED)
+        );
+    }
+
 }

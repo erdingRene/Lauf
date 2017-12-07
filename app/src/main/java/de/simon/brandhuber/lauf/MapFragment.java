@@ -3,6 +3,7 @@ package de.simon.brandhuber.lauf;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
@@ -29,13 +30,15 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.Polyline;
+import com.google.android.gms.maps.model.PolylineOptions;
 
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class MapFragment extends Fragment implements OnMapReadyCallback,GoogleApiClient.ConnectionCallbacks,GoogleApiClient.OnConnectionFailedListener,LocationListener {
-    private GoogleMap mMap;
+    public GoogleMap mMap;
     private  GoogleApiClient mGoogleApiClient;
     private Location mLastLocation;
     private Marker mCurrLocationMarker;
@@ -137,6 +140,11 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,GoogleAp
             mMap = googleMap;
             mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
 
+
+
+
+
+
             //Initialize Google Play Services
             if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 if (ContextCompat.checkSelfPermission(getActivity(),
@@ -151,6 +159,9 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,GoogleAp
                 mMap.setMyLocationEnabled(true);
             }
         }
+
+
+
 
 
         @Override
