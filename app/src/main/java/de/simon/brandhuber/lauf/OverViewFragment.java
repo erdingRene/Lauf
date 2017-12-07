@@ -25,6 +25,15 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
+
+
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -46,7 +55,7 @@ public class OverViewFragment extends Fragment implements LocationListener, View
     private EditText runName;
     private Double lat;
     private Double lon;
-    private Double hight;
+    private Double height;
     private String datetime;
     private SimpleDateFormat normalTimeFormat;
 
@@ -382,7 +391,7 @@ public class OverViewFragment extends Fragment implements LocationListener, View
         double breite = loc.getLatitude();
         lat = loc.getLatitude();
         lon = loc.getLongitude();
-        hight = loc.getAltitude();
+        height = loc.getAltitude();
         normalTimeFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
         datetime = normalTimeFormat.format(new Date(loc.getTime()));
 
@@ -426,7 +435,7 @@ public class OverViewFragment extends Fragment implements LocationListener, View
 
     //Methode zum Hinzufügen der Eingaben zur DB per Schaltfläche
     public void AddData() {
-        boolean isInserted = rundb.insertData(theNextRunNumber, runName.getText().toString(),lat,lon,hight,datetime);
+        boolean isInserted = rundb.insertData(theNextRunNumber, runName.getText().toString(),lat,lon, height,datetime);
                         if(isInserted = true)
                             Toast.makeText(getActivity() ,"Data Inserted",Toast.LENGTH_LONG).show();
                         else

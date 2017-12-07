@@ -14,9 +14,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -112,35 +109,22 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_overview) {
-
-
             OverViewFragment overViewFragment = new OverViewFragment();
             FragmentManager manager = getSupportFragmentManager();
 
             manager.beginTransaction().replace(R.id.mainLayout, overViewFragment).commit();
 
-
-
-
-
-
         } else if (id == R.id.nav_map) {
-
-
-
-
-
-
             MapFragment mapFragment = new MapFragment();
-
-
             FragmentManager manager = getSupportFragmentManager();
-
             manager.beginTransaction().replace(R.id.mainLayout, mapFragment).commit();
 
 
-        } else if (id == R.id.nav_slideshow) {
+        } else if (id == R.id.nav_myruns) {
+            AlreadyRunFragment alreadyRunFragment = new AlreadyRunFragment();
+            FragmentManager manager = getSupportFragmentManager();
 
+            manager.beginTransaction().replace(R.id.mainLayout, alreadyRunFragment).commit();
         } else if (id == R.id.nav_manage) {
 
         } else if (id == R.id.nav_share) {
