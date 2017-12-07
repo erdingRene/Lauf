@@ -124,7 +124,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleA
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_map, container, false);
-        mMap = (GoogleMap) v.findViewById(R.id.map1);
+
         return v;
     }
 
@@ -155,6 +155,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleA
         } else {
             buildGoogleApiClient();
             mMap.setMyLocationEnabled(true);
+            mMap.getUiSettings().setZoomControlsEnabled(true);
+            mMap.getUiSettings().setScrollGesturesEnabled(true);
         }
     }
 
