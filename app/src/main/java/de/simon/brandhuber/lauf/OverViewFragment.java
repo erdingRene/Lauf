@@ -54,6 +54,7 @@ import java.util.List;
 public class OverViewFragment extends Fragment implements LocationListener, View.OnClickListener {
 
     // Vorübergehende Variablen
+    private Integer theNextLocation = 0;
     private Integer theNextRunNumber;
     private EditText runName;
     private Double lat;
@@ -390,6 +391,7 @@ public class OverViewFragment extends Fragment implements LocationListener, View
 
     public void onLocationChanged(Location loc) {
 
+        theNextLocation += theNextLocation;
         double laenge = loc.getLongitude();
         double breite = loc.getLatitude();
         lat = loc.getLatitude();
@@ -411,9 +413,8 @@ public class OverViewFragment extends Fragment implements LocationListener, View
 
         if (gather) {
             position.add(loc);
-            AddData();
-
-            drawLine();
+            AddData(theNextRunNumber);
+            drawLine(theNextRunNumber);
 
 
         }
@@ -441,7 +442,7 @@ public class OverViewFragment extends Fragment implements LocationListener, View
 
 
     //Methode zum Hinzufügen der Eingaben zur DB per Schaltfläche
-    public void AddData() {
+    public void AddData(Integer theNextRunNumber) {
         boolean isInserted = rundb.insertData(theNextRunNumber, runName.getText().toString(),lat,lon, height,datetime);
                         if(isInserted = true)
                             Toast.makeText(getActivity() ,"Data Inserted",Toast.LENGTH_LONG).show();
@@ -453,12 +454,20 @@ public class OverViewFragment extends Fragment implements LocationListener, View
 
 
 
-    public void drawLine (Double firstlat, Double firstlon, Double lastlat, Double lastlon){
-        Polyline line= karte.addPolyline(new PolylineOptions()
-                .add(new LatLng(firstlat,firstlon),new LatLng(lastlat,lastlon))
-                .width(5)
-                .color(Color.RED)
-        );
+    public void drawLine (Integer runNumber){
+        if(rundb.howOftenExistsRunNumber(runNumber) >= 2){
+            Double[] latLonArray = rundb.dataForDrawLine(runNumber);
+            Polyline line= karte.addPolyline(new PolylineOptions()
+                    .add(new LatLng(latLonArray[0],latLonArray[1]),new LatLng(latLonArray[2],latLonArray[3]))
+                    .width(5)
+                    .color(Color.RED));
+
+
+        }
+
+
     }
+
+
 
 }

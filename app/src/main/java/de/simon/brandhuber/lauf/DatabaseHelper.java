@@ -86,6 +86,44 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         SQLiteDatabase db = this.getWritableDatabase();
         return db.delete(Table_Name,"RUN_NAME = ?", new String[]{RUN_NAME});
     }
+
+    public  Integer howOftenExistsRunNumber (Integer runNumber){
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor res = db.rawQuery("SELECT COUNT(RUN_NUMBER) FROM " + Table_Name + " where RUN_Number = " + runNumber,null);
+        res.moveToFirst();
+        int howOftenIsRunNumber = res.getInt(res.getColumnIndex("Number"));
+        return howOftenIsRunNumber;
+    }
+
+    public Double[] dataForDrawLine (Integer runNumber){
+
+
+        Double[] LatLon2;
+        LatLon2 = new Double[2];
+
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        Cursor zes = db.rawQuery("select ID from tbl_run where RUN_NUMBER = " + runNumber + " order by ID limit 1",null);
+        zes.moveToFirst();
+        Integer ID = zes.getInt(zes.getColumnIndex("Number"));
+
+
+
+        Cursor res = db.rawQuery("SELECT LAT FROM" + Table_Name + " where ID = " + ID,null);
+        res.moveToFirst();
+        LatLon2[0] = res.getDouble(res.getColumnIndex("Number"));
+        Cursor ces = db.rawQuery("SELECT LON FROM" + Table_Name + " where ID = " + ID,null);
+        ces.moveToFirst();
+        LatLon2[1] = ces.getDouble(ces.getColumnIndex("Number"));
+        Cursor aes = db.rawQuery("SELECT LAT FROM" + Table_Name + " where ID = " + (ID + 1),null);
+        aes.moveToFirst();
+        LatLon2[2] = aes.getDouble(aes.getColumnIndex("Number"));
+        Cursor bes = db.rawQuery("SELECT LON FROM" + Table_Name + " where ID = " + (ID + 1),null);
+        bes.moveToFirst();
+        LatLon2[3] = bes.getDouble(bes.getColumnIndex("Number"));
+        return LatLon2;
+
+    }
     }
 
 
