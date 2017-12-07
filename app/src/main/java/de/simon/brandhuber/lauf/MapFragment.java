@@ -52,6 +52,10 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleA
         mGoogleApiClient.connect();
     }
 
+    public MapFragment() {
+        super();
+    }
+
     public static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
 
     public boolean checkLocationPermission() {
@@ -140,9 +144,12 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleA
     @Override
     public void onMapReady(GoogleMap googleMap) {
         System.out.println("im in onMapReady");
+        //mMap = OverViewFragment.karte;
+        OverViewFragment.karte = googleMap;
         mMap = googleMap;
         mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
-
+        mMap.getUiSettings().setZoomControlsEnabled(true);
+        mMap.getUiSettings().setScrollGesturesEnabled(true);
 
         //Initialize Google Play Services
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -155,8 +162,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleA
         } else {
             buildGoogleApiClient();
             mMap.setMyLocationEnabled(true);
-            mMap.getUiSettings().setZoomControlsEnabled(true);
-            mMap.getUiSettings().setScrollGesturesEnabled(true);
+
         }
     }
 

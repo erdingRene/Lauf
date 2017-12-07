@@ -81,7 +81,7 @@ public class OverViewFragment extends Fragment implements LocationListener, View
     private boolean gather;
     private List<Location> position;
 
-    private GoogleMap karte;
+    public static GoogleMap karte;
 
 
     public static final String LOG_TAG = MainActivity.class.getSimpleName();
