@@ -57,6 +57,9 @@ public class OverViewFragment extends Fragment implements LocationListener, View
     private Double height;
     private String datetime;
     private SimpleDateFormat normalTimeFormat;
+    private Integer ID;
+    private Integer controlA;
+
 
     // reguläre Variablen
     private TextView showlenght;
@@ -176,7 +179,7 @@ public class OverViewFragment extends Fragment implements LocationListener, View
             saveButton.setEnabled(false);
             weiterButton.setEnabled(false);
 
-
+            controlA = 0;
             int howOftenWasTheStartButtonPuched = rundb.lastRunNumber();
             theNextRunNumber = 1 + howOftenWasTheStartButtonPuched;
 
@@ -396,8 +399,6 @@ public class OverViewFragment extends Fragment implements LocationListener, View
         datetime = normalTimeFormat.format(new Date(loc.getTime()));
 
 
-
-
         showwidth.setText(Location.convert(breite, Location.FORMAT_SECONDS));
         showlenght.setText(Location.convert(laenge, Location.FORMAT_SECONDS));
 
@@ -409,9 +410,16 @@ public class OverViewFragment extends Fragment implements LocationListener, View
         if (gather) {
             position.add(loc);
             AddData(theNextRunNumber);
-            drawLine(theNextRunNumber);
 
+            //ID Suchen
+            if (controlA == 0) {
+                ID = rundb.idCounter(theNextRunNumber);
+            }
+            else {
+                ID = ID + 1;
+            }
 
+            drawLine(ID, theNextRunNumber);
         }
 
     }
@@ -447,14 +455,13 @@ public class OverViewFragment extends Fragment implements LocationListener, View
 
     }
 
-    //ID Suchen
-    Integer ID = rundb.idCounter(theNextRunNumber);
+
 
 
     //Linie zeichnen
-    public void drawLine (Integer runNumber){
+    public void drawLine (Integer LaufNR, Integer runNumber){
         if(rundb.howOftenExistsRunNumber(runNumber) >= 2){
-            Double[] latLonArray = rundb.dataForDrawLine(runNumber);
+            Double[] latLonArray = rundb.dataForDrawLine(LaufNR);
             Polyline line= karte.addPolyline(new PolylineOptions()
                     .clickable(true)
                     .add(   new LatLng(latLonArray[0],latLonArray[1]),
@@ -462,7 +469,7 @@ public class OverViewFragment extends Fragment implements LocationListener, View
                     .width(5)
                     .color(Color.RED));
                     karte.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latLonArray[2],latLonArray[3]), 4));
-
+            controlA = 1;
 
         }
 
