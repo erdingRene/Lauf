@@ -95,18 +95,22 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         return howOftenIsRunNumber;
     }
 
-    public Double[] dataForDrawLine (Integer runNumber){
+    public Integer idCounter (Integer runNumber){
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor zes = db.rawQuery("select ID  as Number from tbl_run where RUN_NUMBER = " + runNumber + " order by ID limit 1",null);
+        zes.moveToFirst();
+        Integer ID = zes.getInt(zes.getColumnIndex("Number"));
+
+        return ID;
+    }
+
+    public Double[] dataForDrawLine (Integer ID){
 
 
         Double[] LatLon2;
         LatLon2 = new Double[4];
 
         SQLiteDatabase db = this.getWritableDatabase();
-
-        Cursor zes = db.rawQuery("select ID  as Number from tbl_run where RUN_NUMBER = " + runNumber + " order by ID limit 1",null);
-        zes.moveToFirst();
-        Integer ID = zes.getInt(zes.getColumnIndex("Number"));
-
 
 
         Cursor res = db.rawQuery("SELECT LAT  as Number FROM " + Table_Name + " where ID = " + ID,null);
