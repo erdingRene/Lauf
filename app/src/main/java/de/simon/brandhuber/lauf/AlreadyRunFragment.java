@@ -3,11 +3,14 @@ package de.simon.brandhuber.lauf;
 
 import android.app.AlertDialog;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -15,7 +18,17 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Polyline;
+import com.google.android.gms.maps.model.PolylineOptions;
+
 import java.util.List;
+
+import static de.simon.brandhuber.lauf.OverViewFragment.karte;
+import static de.simon.brandhuber.lauf.R.id.parent;
+import static de.simon.brandhuber.lauf.R.id.start;
 
 
 /**
@@ -31,6 +44,9 @@ public class AlreadyRunFragment extends Fragment {
     public AlreadyRunFragment() {
         // Required empty public constructor
     }
+    public static GoogleMap map;
+
+
 
 
     @Override
@@ -40,20 +56,49 @@ public class AlreadyRunFragment extends Fragment {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_already_run, container, false);
 
+        txtDeleteName = (EditText) v.findViewById(R.id.txtDeleteName);
+        btnDelete = (Button) v.findViewById(R.id.btnDelete);
+        rundb = new DatabaseHelper(getContext());
 
-        String[] runs = {"Erding","München","Freising","Frankfurt Oder"};
+        String[] runs = rundb.getColumnsString();
         ListAdapter adapter = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_1,runs);
         ListView listRuns = (ListView) v.findViewById(R.id.listRuns);
         listRuns.setAdapter(adapter);
-
-        txtDeleteName = (EditText) v.findViewById(R.id.txtDeleteName);
-
-        btnDelete = (Button) v.findViewById(R.id.btnDelete);
-        rundb = new DatabaseHelper(getContext());
         viewColumns();
         deleteData();
-        return v;
 
+
+        listRuns.setOnItemClickListener(
+                new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    String run = String.valueOf(parent.getItemAtPosition(position));
+                        showRun(run);
+                    }
+                });
+
+        return v;
+    }
+
+    private void showRun(Integer run) {
+        MapFragment mapFragment = new MapFragment();
+        map = mapFragment.mMap;
+        FragmentManager manager = getActivity().getSupportFragmentManager();
+        manager.beginTransaction().replace(R.id.alreadyRunMapFragment, mapFragment).commit();
+        if(rundb.howOftenExistsRunNumber(run) >= 2){
+            Integer startId = rundb.idCounter(run);
+            Integer endId = rundb.idCounterCounted(startId);
+            for (int id = startId; id <= endId ;id++) {
+                Double[] latLonArray = rundb.dataForDrawLine(id);
+                Polyline line = karte.addPolyline(new PolylineOptions()
+                        .clickable(true)
+                        .add(new LatLng(latLonArray[0], latLonArray[1]),
+                                new LatLng(latLonArray[2], latLonArray[3]))
+                        .width(5)
+                        .color(Color.RED));
+                karte.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latLonArray[2], latLonArray[3]), 4));
+
+            }
 
     }
 

@@ -6,6 +6,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import java.util.ArrayList;
+
 /**
  * Created by René on 01.12.2017.
  */
@@ -81,6 +83,20 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         Cursor res = db.rawQuery("SELECT DISTINCT RUN_NUMBER,RUN_NAME FROM " + Table_Name, null);
             return res;
     }
+    public String[] getColumnsString(){
+        Cursor cursor = getReadableDatabase().rawQuery("SELECT DISTINCT RUN_NUMBER,RUN_NAME FROM " + Table_Name, null);
+        cursor.moveToFirst();
+        ArrayList<String> runs = new ArrayList<String>();
+        while(!cursor.isAfterLast()) {
+            runs.add(cursor.getString(cursor.getColumnIndex("RUN_NUMBER")) + " " + cursor.getString(cursor.getColumnIndex("RUN_NAME")));
+
+
+            cursor.moveToNext();
+        }
+        cursor.close();
+        return runs.toArray(new String[runs.size()]);
+    }
+
 
     public Integer deleteData(String RUN_NAME){
         SQLiteDatabase db = this.getWritableDatabase();
@@ -98,6 +114,15 @@ public class DatabaseHelper extends SQLiteOpenHelper{
     public Integer idCounter (Integer runNumber){
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor zes = db.rawQuery("select ID  as Number from tbl_run where RUN_NUMBER = " + runNumber + " order by ID limit 1",null);
+        zes.moveToFirst();
+        Integer ID = zes.getInt(zes.getColumnIndex("Number"));
+
+        return ID;
+    }
+
+    public Integer idCounterCounted (Integer runNumber){
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor zes = db.rawQuery("SELECT COUNT(ID) as Number FROM " + Table_Name + " where RUN_Number = " + runNumber,null);
         zes.moveToFirst();
         Integer ID = zes.getInt(zes.getColumnIndex("Number"));
 

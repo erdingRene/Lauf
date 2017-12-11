@@ -452,7 +452,6 @@ public class OverViewFragment extends Fragment implements LocationListener, View
                         else
                             Toast.makeText(getActivity(),"Data not Inserted",Toast.LENGTH_LONG).show();
 
-
     }
 
 

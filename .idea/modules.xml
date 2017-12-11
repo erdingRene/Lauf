@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/Lauf.iml" filepath="$PROJECT_DIR$/Lauf.iml" />
       <module fileurl="file://D:/Lauf-master/Lauf.iml" filepath="D:/Lauf-master/Lauf.iml" />
       <module fileurl="file://$PROJECT_DIR$/Lauf-master.iml" filepath="$PROJECT_DIR$/Lauf-master.iml" />
       <module fileurl="file://$PROJECT_DIR$/Lauf2.iml" filepath="$PROJECT_DIR$/Lauf2.iml" />
