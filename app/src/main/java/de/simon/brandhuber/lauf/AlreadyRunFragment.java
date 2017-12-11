@@ -8,9 +8,14 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListAdapter;
+import android.widget.ListView;
 import android.widget.Toast;
+
+import java.util.List;
 
 
 /**
@@ -36,6 +41,11 @@ public class AlreadyRunFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_already_run, container, false);
 
 
+        String[] runs = {"Erding","München","Freising","Frankfurt Oder"};
+        ListAdapter adapter = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_1,runs);
+        ListView listRuns = (ListView) v.findViewById(R.id.listRuns);
+        listRuns.setAdapter(adapter);
+
         txtDeleteName = (EditText) v.findViewById(R.id.txtDeleteName);
 
         btnDelete = (Button) v.findViewById(R.id.btnDelete);
@@ -43,6 +53,8 @@ public class AlreadyRunFragment extends Fragment {
         viewColumns();
         deleteData();
         return v;
+
+
     }
 
     public void deleteData(){
