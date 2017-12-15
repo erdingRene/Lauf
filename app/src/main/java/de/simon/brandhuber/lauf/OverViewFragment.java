@@ -11,6 +11,7 @@ import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v4.app.ActivityCompat;
@@ -59,7 +60,7 @@ public class OverViewFragment extends Fragment implements LocationListener, View
     private SimpleDateFormat normalTimeFormat;
     private Integer ID;
     private Integer controlA;
-
+    private MediaPlayer audioPlayer;
 
     // reguläre Variablen
     private TextView showlenght;
@@ -184,6 +185,9 @@ public class OverViewFragment extends Fragment implements LocationListener, View
             theNextRunNumber = 1 + howOftenWasTheStartButtonPuched;
 
 
+            audioVonDatei();
+
+
 
             gather = true;
 
@@ -209,12 +213,18 @@ public class OverViewFragment extends Fragment implements LocationListener, View
         }
 
         else if (v == stopButton) {
-            startButton.setEnabled(false);
+            startButton.setEnabled(true);
             pauseButton.setEnabled(false);
             stopButton.setEnabled(false);
             saveButton.setEnabled(true);
             weiterButton.setEnabled(false);
             gather = false;
+            if(audioPlayer.isPlaying()) {
+                audioPlayer.stop();
+            }
+            stopPlaying();
+
+
         }
 
 
@@ -474,6 +484,32 @@ public class OverViewFragment extends Fragment implements LocationListener, View
         }
 
 
+    }
+
+    private void audioVonDatei() {
+
+        if(audioPlayer == null) {
+            audioPlayer = MediaPlayer.create(getActivity(), R.raw.test); // Musik: http://www.playinmusic.com/music-loops-demo-songs.html
+            audioPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                public void onCompletion(MediaPlayer mp) {
+                    Log.d("carpelibrum", "Audiodatei abgespielt");
+                }
+            });
+        }
+
+        if(audioPlayer.isPlaying()) {
+            audioPlayer.stop();
+        }
+
+        audioPlayer.start();
+    }
+
+    private void stopPlaying() {
+        if (audioPlayer != null) {
+            audioPlayer.stop();
+            audioPlayer.release();
+            audioPlayer = null;
+        }
     }
 
 
