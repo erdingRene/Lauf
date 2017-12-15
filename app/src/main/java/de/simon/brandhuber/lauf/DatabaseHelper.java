@@ -83,12 +83,13 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         Cursor res = db.rawQuery("SELECT DISTINCT RUN_NUMBER,RUN_NAME FROM " + Table_Name, null);
             return res;
     }
+
     public String[] getColumnsString(){
         Cursor cursor = getReadableDatabase().rawQuery("SELECT DISTINCT RUN_NUMBER,RUN_NAME FROM " + Table_Name, null);
         cursor.moveToFirst();
         ArrayList<String> runs = new ArrayList<String>();
         while(!cursor.isAfterLast()) {
-            runs.add(cursor.getString(cursor.getColumnIndex("RUN_NUMBER")) + " " + cursor.getString(cursor.getColumnIndex("RUN_NAME")));
+            runs.add(cursor.getString(cursor.getColumnIndex("RUN_NAME")));
 
 
             cursor.moveToNext();
@@ -118,6 +119,15 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         Integer ID = zes.getInt(zes.getColumnIndex("Number"));
 
         return ID;
+    }
+
+    public Integer whatIsTheRunNumber (String runName){
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor zes = db.rawQuery("select DISTINCT RUN_Number as Number from tbl_run where RUN_NAME = " + "'" + runName + "'",null);
+        zes.moveToFirst();
+        Integer runNumber = zes.getInt(zes.getColumnIndex("Number"));
+
+        return runNumber;
     }
 
     public Integer idCounterCounted (Integer runNumber){

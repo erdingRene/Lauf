@@ -1,12 +1,10 @@
 package de.simon.brandhuber.lauf;
 
 
-import android.app.AlertDialog;
-import android.database.Cursor;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,11 +22,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 
-import java.util.List;
-
 import static de.simon.brandhuber.lauf.OverViewFragment.karte;
-import static de.simon.brandhuber.lauf.R.id.parent;
-import static de.simon.brandhuber.lauf.R.id.start;
 
 
 /**
@@ -64,7 +58,7 @@ public class AlreadyRunFragment extends Fragment {
         ListAdapter adapter = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_1,runs);
         ListView listRuns = (ListView) v.findViewById(R.id.listRuns);
         listRuns.setAdapter(adapter);
-        viewColumns();
+        //viewColumns();
         deleteData();
 
 
@@ -73,34 +67,42 @@ public class AlreadyRunFragment extends Fragment {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     String run = String.valueOf(parent.getItemAtPosition(position));
+                        int duration = Toast.LENGTH_SHORT;
+                        Toast toast = Toast.makeText(getActivity(), run, duration);
+                        toast.show();
+                        txtDeleteName.setText(run);
                         showRun(run);
-                    }
+                                            }
                 });
 
         return v;
     }
 
-    private void showRun(Integer run) {
+    private void showRun(String runName) {
         MapFragment mapFragment = new MapFragment();
         map = mapFragment.mMap;
-        FragmentManager manager = getActivity().getSupportFragmentManager();
-        manager.beginTransaction().replace(R.id.alreadyRunMapFragment, mapFragment).commit();
+        //FragmentManager manager = getActivity().getSupportFragmentManager();
+        //manager.beginTransaction().replace(R.id.alreadyRunMapFragment, mapFragment).commit();
+        Integer run = rundb.whatIsTheRunNumber(runName);
         if(rundb.howOftenExistsRunNumber(run) >= 2){
+            Double[] latLonArray = new Double[4];
             Integer startId = rundb.idCounter(run);
-            Integer endId = rundb.idCounterCounted(startId);
-            for (int id = startId; id <= endId ;id++) {
-                Double[] latLonArray = rundb.dataForDrawLine(id);
+            Integer endId = startId + rundb.howOftenExistsRunNumber(run) - 1;
+            for (int id = startId; id <= endId - 1 ;id++) {
+               latLonArray = rundb.dataForDrawLine(id);
                 Polyline line = karte.addPolyline(new PolylineOptions()
                         .clickable(true)
                         .add(new LatLng(latLonArray[0], latLonArray[1]),
                                 new LatLng(latLonArray[2], latLonArray[3]))
                         .width(5)
                         .color(Color.RED));
-                karte.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latLonArray[2], latLonArray[3]), 4));
-
+                Log.d("coord","coords were loaded");
+                
             }
+            karte.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latLonArray[2], latLonArray[3]), 15));
+            Log.d("zoom","zoom was executed");
 
-    }
+        }}
 
     public void deleteData(){
         btnDelete.setOnClickListener(
@@ -108,6 +110,7 @@ public class AlreadyRunFragment extends Fragment {
                     @Override
                     public void onClick(View v){
                         Integer deletedRows = rundb.deleteData(txtDeleteName.getText().toString() );
+
                         if (deletedRows > 0)
                             Toast.makeText(getActivity() ,deletedRows + " row(s) deleted",Toast.LENGTH_LONG).show();
                         else
@@ -118,6 +121,7 @@ public class AlreadyRunFragment extends Fragment {
         );
     }
 
+    /*
     public void viewColumns(){
         Cursor res = rundb.getColumns();
         if(res.getCount() == 0){
@@ -141,5 +145,6 @@ public class AlreadyRunFragment extends Fragment {
         builder.setMessage(Message);
         builder.show();
     }
+    */
 
 }

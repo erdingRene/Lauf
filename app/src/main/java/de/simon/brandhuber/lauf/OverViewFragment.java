@@ -469,6 +469,7 @@ public class OverViewFragment extends Fragment implements LocationListener, View
                     .color(Color.RED));
                     karte.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latLonArray[2],latLonArray[3]), 4));
             controlA = 1;
+            karte.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latLonArray[2], latLonArray[3]), 12));
 
         }
 
