@@ -33,6 +33,8 @@ public class AlreadyRunFragment extends Fragment {
     DatabaseHelper rundb;
     Button  btnDelete;
     EditText txtDeleteName;
+    ListAdapter adapter;
+    ListView listRuns;
 
 
     public AlreadyRunFragment() {
@@ -55,8 +57,8 @@ public class AlreadyRunFragment extends Fragment {
         rundb = new DatabaseHelper(getContext());
 
         String[] runs = rundb.getColumnsString();
-        ListAdapter adapter = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_1,runs);
-        ListView listRuns = (ListView) v.findViewById(R.id.listRuns);
+        adapter = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_1,runs);
+        listRuns = (ListView) v.findViewById(R.id.listRuns);
         listRuns.setAdapter(adapter);
         //viewColumns();
         deleteData();
@@ -110,13 +112,18 @@ public class AlreadyRunFragment extends Fragment {
                     @Override
                     public void onClick(View v){
                         Integer deletedRows = rundb.deleteData(txtDeleteName.getText().toString() );
+                        String[] runs = rundb.getColumnsString();
+                        adapter = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_1,runs);
 
+                        listRuns.setAdapter(adapter);
                         if (deletedRows > 0)
                             Toast.makeText(getActivity() ,deletedRows + " row(s) deleted",Toast.LENGTH_LONG).show();
                         else
                             Toast.makeText(getActivity(),"Data not deleted",Toast.LENGTH_LONG).show();
 
+
                     }
+
                 }
         );
     }

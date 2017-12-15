@@ -125,7 +125,11 @@ public class MainActivity extends AppCompatActivity
             FragmentManager manager = getSupportFragmentManager();
 
             manager.beginTransaction().replace(R.id.mainLayout, alreadyRunFragment).commit();
-        } else if (id == R.id.nav_manage) {
+        } else if (id == R.id.nav_offlineMap) {
+            offlinemapFragment offlineMapFragment = new offlinemapFragment();
+            FragmentManager manager = getSupportFragmentManager();
+
+            manager.beginTransaction().replace(R.id.mainLayout, offlineMapFragment).commit();
 
         } else if (id == R.id.nav_share) {
 
