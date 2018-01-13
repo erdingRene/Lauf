@@ -126,7 +126,7 @@ public class OverViewFragment extends Fragment implements LocationListener, View
 
 
         //DB
-        rundb = new DatabaseHelper(getContext());
+        rundb  = new DatabaseHelper(getContext());
         runName = (EditText) v.findViewById(R.id.edtRunName);
 
 
