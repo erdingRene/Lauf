@@ -24,8 +24,8 @@ public class MainActivity extends AppCompatActivity
 
 
     public static List<Location> weg = new ArrayList<Location>();
-
     public static final String LOG_TAG = MainActivity.class.getSimpleName();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -125,9 +125,16 @@ public class MainActivity extends AppCompatActivity
             FragmentManager manager = getSupportFragmentManager();
 
             manager.beginTransaction().replace(R.id.mainLayout, alreadyRunFragment).commit();
-        } else if (id == R.id.nav_manage) {
+        } else if (id == R.id.nav_offlineMap) {
+            offlinemapFragment offlineMapFragment = new offlinemapFragment();
+            FragmentManager manager = getSupportFragmentManager();
 
-        } else if (id == R.id.nav_share) {
+            manager.beginTransaction().replace(R.id.mainLayout, offlineMapFragment).commit();
+
+        } else if (id == R.id.nav_git) {
+            WebViewFragment webViewFragment = new WebViewFragment();
+            FragmentManager manager = getSupportFragmentManager();
+            manager.beginTransaction().replace(R.id.mainLayout, webViewFragment).commit();
 
         } else if (id == R.id.nav_send) {
 

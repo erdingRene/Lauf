@@ -11,6 +11,7 @@ import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v4.app.ActivityCompat;
@@ -26,16 +27,11 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
-
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -54,6 +50,7 @@ import java.util.List;
 public class OverViewFragment extends Fragment implements LocationListener, View.OnClickListener {
 
     // Vorübergehende Variablen
+    private Integer theNextLocation = 0;
     private Integer theNextRunNumber;
     private EditText runName;
     private Double lat;
@@ -61,6 +58,9 @@ public class OverViewFragment extends Fragment implements LocationListener, View
     private Double height;
     private String datetime;
     private SimpleDateFormat normalTimeFormat;
+    private Integer ID;
+    private Integer controlA;
+    private MediaPlayer audioPlayer;
 
     // reguläre Variablen
     private TextView showlenght;
@@ -80,7 +80,7 @@ public class OverViewFragment extends Fragment implements LocationListener, View
     private boolean gather;
     private List<Location> position;
 
-    private GoogleMap karte;
+    public static GoogleMap karte;
 
 
     public static final String LOG_TAG = MainActivity.class.getSimpleName();
@@ -126,7 +126,7 @@ public class OverViewFragment extends Fragment implements LocationListener, View
 
 
         //DB
-        rundb = new DatabaseHelper(getContext());
+        rundb  = new DatabaseHelper(getContext());
         runName = (EditText) v.findViewById(R.id.edtRunName);
 
 
@@ -180,9 +180,12 @@ public class OverViewFragment extends Fragment implements LocationListener, View
             saveButton.setEnabled(false);
             weiterButton.setEnabled(false);
 
-
+            controlA = 0;
             int howOftenWasTheStartButtonPuched = rundb.lastRunNumber();
             theNextRunNumber = 1 + howOftenWasTheStartButtonPuched;
+
+
+            audioVonDatei();
 
 
 
@@ -210,12 +213,18 @@ public class OverViewFragment extends Fragment implements LocationListener, View
         }
 
         else if (v == stopButton) {
-            startButton.setEnabled(false);
+            startButton.setEnabled(true);
             pauseButton.setEnabled(false);
             stopButton.setEnabled(false);
             saveButton.setEnabled(true);
             weiterButton.setEnabled(false);
             gather = false;
+            if(audioPlayer.isPlaying()) {
+                audioPlayer.stop();
+            }
+            stopPlaying();
+
+
         }
 
 
@@ -390,6 +399,7 @@ public class OverViewFragment extends Fragment implements LocationListener, View
 
     public void onLocationChanged(Location loc) {
 
+        theNextLocation += theNextLocation;
         double laenge = loc.getLongitude();
         double breite = loc.getLatitude();
         lat = loc.getLatitude();
@@ -397,8 +407,6 @@ public class OverViewFragment extends Fragment implements LocationListener, View
         height = loc.getAltitude();
         normalTimeFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
         datetime = normalTimeFormat.format(new Date(loc.getTime()));
-
-
 
 
         showwidth.setText(Location.convert(breite, Location.FORMAT_SECONDS));
@@ -411,11 +419,17 @@ public class OverViewFragment extends Fragment implements LocationListener, View
 
         if (gather) {
             position.add(loc);
-            AddData();
+            AddData(theNextRunNumber);
 
-            drawLine();
+            //ID Suchen
+            if (controlA == 0) {
+                ID = rundb.idCounter(theNextRunNumber);
+            }
+            else {
+                ID = ID + 1;
+            }
 
-
+            drawLine(ID, theNextRunNumber);
         }
 
     }
@@ -441,24 +455,63 @@ public class OverViewFragment extends Fragment implements LocationListener, View
 
 
     //Methode zum Hinzufügen der Eingaben zur DB per Schaltfläche
-    public void AddData() {
+    public void AddData(Integer theNextRunNumber) {
         boolean isInserted = rundb.insertData(theNextRunNumber, runName.getText().toString(),lat,lon, height,datetime);
                         if(isInserted = true)
                             Toast.makeText(getActivity() ,"Data Inserted",Toast.LENGTH_LONG).show();
                         else
                             Toast.makeText(getActivity(),"Data not Inserted",Toast.LENGTH_LONG).show();
 
-
     }
 
 
 
-    public void drawLine (Double firstlat, Double firstlon, Double lastlat, Double lastlon){
-        Polyline line= karte.addPolyline(new PolylineOptions()
-                .add(new LatLng(firstlat,firstlon),new LatLng(lastlat,lastlon))
-                .width(5)
-                .color(Color.RED)
-        );
+
+    //Linie zeichnen
+    public void drawLine (Integer LaufNR, Integer runNumber){
+        if(rundb.howOftenExistsRunNumber(runNumber) >= 2){
+            Double[] latLonArray = rundb.dataForDrawLine(LaufNR);
+            Polyline line= karte.addPolyline(new PolylineOptions()
+                    .clickable(true)
+                    .add(   new LatLng(latLonArray[0],latLonArray[1]),
+                            new LatLng(latLonArray[2],latLonArray[3]))
+                    .width(5)
+                    .color(Color.RED));
+                    karte.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latLonArray[2],latLonArray[3]), 4));
+            controlA = 1;
+            karte.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latLonArray[2], latLonArray[3]), 12));
+
+        }
+
+
     }
+
+    private void audioVonDatei() {
+
+        if(audioPlayer == null) {
+            audioPlayer = MediaPlayer.create(getActivity(), R.raw.test); // Musik: http://www.playinmusic.com/music-loops-demo-songs.html
+            audioPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                public void onCompletion(MediaPlayer mp) {
+                    Log.d("carpelibrum", "Audiodatei abgespielt");
+                }
+            });
+        }
+
+        if(audioPlayer.isPlaying()) {
+            audioPlayer.stop();
+        }
+
+        audioPlayer.start();
+    }
+
+    private void stopPlaying() {
+        if (audioPlayer != null) {
+            audioPlayer.stop();
+            audioPlayer.release();
+            audioPlayer = null;
+        }
+    }
+
+
 
 }

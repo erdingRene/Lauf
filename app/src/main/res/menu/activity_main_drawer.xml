@@ -15,17 +15,17 @@
             android:icon="@drawable/ic_menu_slideshow"
             android:title="Meine Läufe" />
         <item
-            android:id="@+id/nav_manage"
+            android:id="@+id/nav_offlineMap"
             android:icon="@drawable/ic_menu_manage"
-            android:title="Tools" />
+            android:title="Übersichtskarte (Offline)" />
     </group>
 
     <item android:title="Communicate">
         <menu>
             <item
-                android:id="@+id/nav_share"
+                android:id="@+id/nav_git"
                 android:icon="@drawable/ic_menu_share"
-                android:title="Share" />
+                android:title="App bei Git" />
             <item
                 android:id="@+id/nav_send"
                 android:icon="@drawable/ic_menu_send"
